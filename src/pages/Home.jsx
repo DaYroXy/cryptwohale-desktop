@@ -10,7 +10,7 @@ function Home() {
         <CurrencyList />
       </div>
       
-      <div className='bg-[#253860] w-[35%] overflow-y-scroll'>
+      <div className='bg-[#253860] w w-[35%] overflow-y-scroll'>
         <MessagesList />
       </div>
     </div>
