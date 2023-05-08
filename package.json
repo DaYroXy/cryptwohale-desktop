@@ -9,7 +9,16 @@
       "target": "dmg"
     },
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "electron-assets/Logo.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "installerIcon": "electron-assets/Logo.ico",
+      "uninstallerIcon": "electron-assets/Logo.ico",
+      "uninstallDisplayName": "Cryptowhale Uninstallation",
+      "license": "LICENSE.md",
+      "allowToChangeInstallationDirectory": true
     },
     "files": [
       "dist/**/*",
@@ -25,7 +34,7 @@
     "electron": "electron main.js",
     "electron-dev": "concurrently \"npm start\" \" npm run electron\"",
     "electron-build": "electron-builder",
-    "build": "vite build",
+    "build": "vite build && electron-builder",
     "package": "electron-builder"
   },
   "dependencies": {

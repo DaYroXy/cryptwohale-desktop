@@ -9,9 +9,9 @@ function createWindow() {
     height: 700,
     resizable: false,
     frame: false,
-    icon: path.join(__dirname, 'src/assets/Logo.svg'),
+    icon: path.join(__dirname, 'electron-assets/Logo.ico'),
     webPreferences: {
-      nodeIntegration: true,
+      // nodeIntegration: true,
       preload: path.join(__dirname, 'lib/preload.js')
     },
   });
