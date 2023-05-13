@@ -1,6 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const url = require('url');
 const isDev = !app.isPackaged;
 
 function createWindow() {
@@ -11,7 +10,6 @@ function createWindow() {
     frame: false,
     icon: path.join(__dirname, 'electron-assets/Logo.ico'),
     webPreferences: {
-      // nodeIntegration: true,
       preload: path.join(__dirname, 'lib/preload.js')
     },
   });

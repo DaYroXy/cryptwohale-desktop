@@ -1,7 +1,9 @@
 
 
-import MessagesList from "../components/Home/MessagsList"
-import CurrencyList from "../components/Home/CurrencyList"
+import MessagesList from "../components/Messages/MessagsList"
+import CurrencyList from "../components/Currencies/CurrencyList"
+import settingsStore from '../stores/settingsStore'
+
 
 function Home() {
   return (
