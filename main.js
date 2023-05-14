@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-const WebSocket = require('ws');
 const path = require('path');
+const WebSocket = require('ws')
 const isDev = !app.isPackaged;
 
 function createWindow() {
@@ -61,4 +61,27 @@ ipcMain.on("minimize", (event) => {
   }
 })
 
-const ws = new WebSocket('wss://news.treeofalpha.com/');
+// var ws = new WebSocket('wss://news.treeofalpha.com/ws');
+
+// ws.on('open', function() {
+//   ws.send('something');
+// });
+// ws.on('message', function(data, flags) {
+//   const strData = data.toString();
+//   console.log(strData);
+//   try {
+//       const jsonData = JSON.parse(strData);
+//       console.log(jsonData);
+//     } catch (e) {
+//       console.error('Could not parse data as JSON:', e);
+//     }
+// });
+ipcMain.handle("newMessage", async (event, args) => {
+  return {
+      id: 5,
+      title: "this is the new one",
+      msg:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.",
+      time: "25 April, 2024 15:30",
+    }
+})

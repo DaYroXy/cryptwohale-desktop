@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import MessagesList from "../components/Messages/MessagsList"
 import CurrencyList from "../components/Currencies/CurrencyList"
-import settingsStore from '../stores/settingsStore'
 import coinsStore from "../stores/coinsStore"
 
 function Home() {

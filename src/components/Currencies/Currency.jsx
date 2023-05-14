@@ -8,7 +8,12 @@ function Currency({id, name, symbol}) {
   const [price, setPrice] = useState(store.price)
 
   const handleChange = (e) => {
-    setPrice(e.target.value)
+    const value = e.target.value;
+    if (!/^[0-9]+$/.test(value)) {
+        console.log("not a number");
+        return; // Don't proceed further if it's not a number
+    }
+    setPrice(e.target.value);
   }
 
   return (
