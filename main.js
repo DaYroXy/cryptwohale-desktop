@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const WebSocket = require('ws');
 const path = require('path');
 const isDev = !app.isPackaged;
 
@@ -59,3 +60,5 @@ ipcMain.on("minimize", (event) => {
     targetWindow.minimize();
   }
 })
+
+const ws = new WebSocket('wss://news.treeofalpha.com/');

@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
+import settingsStore from '../../stores/settingsStore';
 
 function MessagsList() {
 
-    const [price, setPrice] = useState(1900)
+    const store = settingsStore();
+    const [price, setPrice] = useState(store.price)
 
     let List = [
         {
@@ -21,7 +23,6 @@ function MessagsList() {
 
     const handlePriceChange = (e) => {
         setPrice(e.target.value)
-        console.log(price)
     }
 
     return (
