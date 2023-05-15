@@ -42,7 +42,6 @@ function DefaultsPage() {
   ]
 
   const handleSettingsInput = (e) => {
-    console.log(e)
     settingsStore.getState()[`set${e.id}`](e.newValue);
   }
 
@@ -83,7 +82,6 @@ function DefaultsPage() {
             {Notifications.map((item, index) => (
               <div key={index} className="flex gap-4 items-center">
                 <div className="items-center flex">
-                  {console.log(item.text, item.isChecked)}
                   <SettingsCheckbox id={item.id} handleInputChange={handleSettingsCheckbox} checked={item.isChecked} value={"10"} />
                 </div>
                 <p className='text-white/70 '>{item.text}</p>

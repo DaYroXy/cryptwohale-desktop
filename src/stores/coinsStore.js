@@ -13,10 +13,8 @@ const coinsStore = create((set) => ({
     fetchCoins: async () => {
         if(localStorage.getItem('coins') && localStorage.getItem('coins').length > 0) {
             set({coinsList: JSON.parse(localStorage.getItem('coins'))})
-            console.log("already loaded")
         } else {
             const res = await axios.get('https://api.coingecko.com/api/v3/coins/list')
-            console.log(res)
             const coinsList = res.data.map((coin) => {
                 return {
                     id: coin.id,
