@@ -9,6 +9,8 @@ import DefaultsPage from "./pages/SettingsOutlets/DefaultsPage"
 import MenuBar from "./components/MenuBar"
 import NavBar from "./components/NavBar"
 
+// import test from "./test/test.js"
+// test()
 
 function App() {
   return (

@@ -7,37 +7,50 @@ import SettingsCheckbox from '../../components/Layout/SettingsCheckbox'
 
 function DefaultsPage() {
 
+  const {
+    leverage,
+    price,
+    authentication,
+    newMessage,
+    orderPlaced,
+    orderFailed,
+    orderSucceed,
+  } = settingsStore();
+
+  
   const defaults = [
     {
       text: "Leverage",
-      value: settingsStore(state => state.leverage),
+      value: leverage,
     },
     {
       text: "Price",
-      value: settingsStore(state => state.price),
+      value: price,
     },
   ]
+
+  const AuthenticationValue = authentication
 
   const Notifications = [
     {
       id:"NewMessage",
       text: "New Message",
-      isChecked: settingsStore(state => state.newMessage),
+      isChecked: newMessage,
     },
     {
       id:"OrderPlaced",
       text: "Order Placed",
-      isChecked: settingsStore(state => state.orderPlaced),
+      isChecked: orderPlaced,
     },
     {
       id:"OrderFailed",
       text: "Order Failed",
-      isChecked: settingsStore(state => state.orderFailed),
+      isChecked: orderFailed,
     },
     {
       id:"OrderSucceed",
       text: "Order Succeed",
-      isChecked: settingsStore(state => state.orderSucceed),
+      isChecked: orderSucceed,
     }
   ]
 
@@ -56,7 +69,7 @@ function DefaultsPage() {
         <div className="flex mt-4 gap-5 items-center">
           <p className='text-white/70 '>Cryptowhale Api Key:</p>
           <div className="flex-1 ">
-            <SettingsInput placeholder={"XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"} />
+            <SettingsInput id='Authentication' handleInputChange={handleSettingsInput} value={AuthenticationValue}  placeholder={"XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"} />
           </div>
         </div>
       </div>

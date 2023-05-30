@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import formatPrice from "../../utils/formatPrice.js"
 import formatLongName from '../../utils/formatLongName.js'
 import settingsStore from '../../stores/settingsStore.js'
+import err from '../../assets/Err.jpg'
+
 
 function Currency({id, name, symbol}) {
   const store = settingsStore();
@@ -17,8 +19,8 @@ function Currency({id, name, symbol}) {
 
   return (
     <div key={id} className="px-4 flex gap-2 h-[55px] items-center border-b shadow-2xl shadow-[#0057FF]/30 border-[#9C27B0]/30">
-        <img className='w-[27px] h-[27px]' src={`https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/btc.png`}
-          // onError={(e)=>{e.target.onerror = null; e.target.src="https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/btc.png"}}
+        <img className='w-[27px] h-[27px] rounded-full' src={`https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/${symbol}.png`}
+          onError={(e)=>{e.target.onerror = null; e.target.src=err}}
         alt="" />
         <div className="flex gap-2">
             <p className="text-white font-semibold w-[100px]">{formatLongName(name)}</p>

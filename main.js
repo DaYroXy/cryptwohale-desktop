@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const WebSocket = require('ws')
+const newMessageHandler = require('./events/newMessage.js');
+const axios = require('axios')
+const crypto = require('crypto')
 const isDev = !app.isPackaged;
 
 function createWindow() {
@@ -29,12 +31,10 @@ function createWindow() {
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.",
     time: "25 April, 2024 15:30",
   }
-  setInterval(() => {
-    mainWindow.webContents.send("newMessage", d)
-    count++;
-    console.log(`emitted: ${count}`)
-    console.log(d)
-  }, 5000);
+  mainWindow.webContents.send("newMessage", d)
+
+  newMessageHandler(mainWindow)
+
 
 }
 
@@ -75,6 +75,26 @@ ipcMain.on("minimize", (event) => {
   if (targetWindow) {
     targetWindow.minimize();
   }
+})
+
+ipcMain.on("place-order", (event, orderData) => {
+
+  const {name, amount, levrage, authentication, method} = orderData;
+  const timestamp = new Date().getTime();
+
+  const data = `${name}&${amount}&${levrage}&${authentication}&${method}&${timestamp}`
+  const Signture = crypto.createHash('sha256').update(data).digest('hex')
+
+  axios({
+    url: 'https://eo9m6qo44qn0m9p.m.pipedream.net',
+    method: 'POST',
+    headers: {
+      'Authorization': 'askldhasjdhsajlkd',
+      'Content-Type': 'application/json'
+    },
+    data: JSON.stringify({...orderData, timestamp, Signture})
+  })
+  console.log({...orderData, timestamp, Signture})
 })
 
 // var ws = new WebSocket('wss://news.treeofalpha.com/ws');

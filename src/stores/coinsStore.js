@@ -45,21 +45,21 @@ const coinsStore = create((set) => ({
     },
 
     setQuery: (e) => {
-        set({query: e.target.value});
+        set({query: e.target.value.trim()});
         coinsStore.getState().searchCoins()
     },
     
     searchCoins: debounce(async () => {
         if(coinsStore.getState().query.length > 2) {
             let res = coinsStore.getState().coinsList.filter(coin => {
-                return coin.name.toLowerCase().startsWith(coinsStore.getState().query.toLowerCase())
+                return coin.name.toLowerCase().startsWith(coinsStore.getState().query.toLowerCase()) || coin.symbol.toLowerCase().startsWith(coinsStore.getState().query.toLowerCase())
             })
-            
+
             set({coinsShowList: res})
         } else {
             await coinsStore.getState().fetchCoinsPage()
         }
-    }, 500)
+    }, 250)
 }))
 
 export default coinsStore

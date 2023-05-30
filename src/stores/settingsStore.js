@@ -6,6 +6,13 @@ const settingsStore = create((set) => ({
     // Defaults 
     leverage: localStorage.getItem("leverage") || 10,
     price: localStorage.getItem("price") || 1500,
+    authentication: localStorage.getItem("authentication") || '',
+
+    setAuthentication: value => {
+        localStorage.setItem("authentication", value);
+        set({authentication: value});
+    },
+
     setLeverage: value => {
       localStorage.setItem("leverage", value);
       set({ leverage: value });
