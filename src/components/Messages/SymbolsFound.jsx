@@ -2,11 +2,16 @@ import React, {useState} from 'react'
 import filterSymbols from '../../utils/filterSymbols';
 import settingsStore from '../../stores/settingsStore';
 import err from '../../assets/Err.jpg'
+import apiStore from '../../stores/apiStore';
 import axios from 'axios'
 
 function SymbolsFound({symbolFound}) {
 
+    if(symbolFound.toLowerCase() === "binance") {
+        symbolFound = 'BNB'
+    }
     const store = settingsStore();
+    const apiStores = apiStore();
     const [price, setPrice] = useState(store.price)
 
     const handlePriceChange = (e) => {
@@ -19,32 +24,14 @@ function SymbolsFound({symbolFound}) {
 
 
     const handleBuyClick = (method) => {
-        console.log("BOUGHT")
-        window.electron.onOrderPlaced({
-            name: `${symbolFound.toUpperCase()}USDT`,
-            amount: price,
-            levrage: store.leverage,
-            authentication: store.authentication,
-            method: method
-        })
-        // axios.post('https://eo9m6qo44qn0m9p.m.pipedream.net', {
-        //     body: JSON.stringify({
-        //         name: `${symbolFound.toUpperCase()}USDT`,
-        //         amount: price,
-        //         levrage: store.leverage,
-        //         method: method
-        //     })
-        // })
+        apiStores.placeOrder(method, symbolFound, price);
     }
 
     return (
         <div className="mt-4">
             <div className="flex items-center">
                 <img className='w-[27px] h-[27px] bg-[#687EE3]  rounded-full' src={`https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/${symbolFound.toLowerCase()}.png`}
-                onError={(e) => {
-                    e.target.onerror = null; 
-                    e.target.src = err
-                    }}
+onError={(e)=>{e.target.onerror = null; e.target.style.display = 'none'}}
                 alt="" />
                 <h1 className='text-white font-medium ml-2'>{symbolFound}</h1>
                 <p className='text-white/70 text-sm ml-2'>{symbolFound}</p>

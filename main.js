@@ -23,15 +23,15 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, './dist/index.html'));
   }
 
-  let count = 0;
-  const d = {
-    id: 5,
-    title: "this is the new one",
-    msg:
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.",
-    time: "25 April, 2024 15:30",
-  }
-  mainWindow.webContents.send("newMessage", d)
+  // let count = 0;
+  // const d = {
+  //   id: 5,
+  //   title: "this is the new one",
+  //   msg:
+  //   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.",
+  //   time: "25 April, 2024 15:30",
+  // }
+  // mainWindow.webContents.send("newMessage", d)
 
   newMessageHandler(mainWindow)
 
@@ -85,16 +85,20 @@ ipcMain.on("place-order", (event, orderData) => {
   const data = `${name}&${amount}&${levrage}&${authentication}&${method}&${timestamp}`
   const Signture = crypto.createHash('sha256').update(data).digest('hex')
 
-  axios({
-    url: 'https://eo9m6qo44qn0m9p.m.pipedream.net',
+  const res = axios({
+    url: 'http://localhost:8200/order',
     method: 'POST',
     headers: {
-      'Authorization': 'askldhasjdhsajlkd',
+      'authorization': authentication,
       'Content-Type': 'application/json'
     },
     data: JSON.stringify({...orderData, timestamp, Signture})
+  }).then(res => {
+    console.log(res)
+  }).catch(err => {
+    console.log(err.response)
   })
-  console.log({...orderData, timestamp, Signture})
+  // console.log({...orderData, timestamp, Signture})
 })
 
 // var ws = new WebSocket('wss://news.treeofalpha.com/ws');

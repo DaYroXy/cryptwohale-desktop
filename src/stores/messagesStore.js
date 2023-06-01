@@ -20,6 +20,7 @@ const messageStore = create((set) => ({
         set({messages: msgs})
     },
     addMessage: (message) => {
+        console.log(message)
         const msgs = messageStore.getState().messages
         set({messages: [message, ...msgs]})
     },
