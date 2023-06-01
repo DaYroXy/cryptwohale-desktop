@@ -3,6 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "main": "main.js",
+  "author": "DaYroXy",
+  "description": "This is a cryptowhale desktop application",
   "build": {
     "appId": "cryptowhale",
     "mac": {
@@ -34,7 +36,7 @@
     "electron": "nodemon --exec electron main.js",
     "electron-dev": "concurrently \"npm start\" \" npm run electron\"",
     "electron-build": "electron-builder",
-    "build": "vite build && electron-builder",
+    "build": "rm -rf && vite build && electron-builder",
     "package": "electron-builder"
   },
   "dependencies": {

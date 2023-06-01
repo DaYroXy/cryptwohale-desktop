@@ -22,23 +22,34 @@ function createWindow() {
   } else {
     mainWindow.loadFile(path.join(__dirname, './dist/index.html'));
   }
-
-  // let count = 0;
-  // const d = {
-  //   id: 5,
-  //   title: "this is the new one",
-  //   msg:
-  //   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.",
-  //   time: "25 April, 2024 15:30",
-  // }
-  // mainWindow.webContents.send("newMessage", d)
-
   newMessageHandler(mainWindow)
-
-
 }
 
 app.whenReady().then(createWindow);
+
+const createChildWindow = (customData) => {
+  childWindow = new BrowserWindow({
+    width: 350,
+    height: 125,
+    resizable: false,
+    frame: false,
+    icon: path.join(__dirname, 'electron-assets/Logo.ico'),
+    webPreferences: {
+      preload: path.join(__dirname, 'lib/notificationPreload.js')
+    },
+  })
+  
+  
+
+  childWindow.loadFile('./Notifications/Alert.html')
+
+  childWindow.webContents.on('did-finish-load', () => {
+    childWindow.webContents.send('message', customData)
+  })
+
+  childWindow.focus()
+}
+
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -69,7 +80,18 @@ ipcMain.on("maximize", (event) => {
   }
 })
 
+ipcMain.on("notification-exit", (event) => {
+  const sender = event.sender;
+  const targetWindow = BrowserWindow.fromWebContents(sender);
+  if(targetWindow) {
+    targetWindow.close()
+  }
+})
+
+
+
 ipcMain.on("minimize", (event) => {
+
   const sender = event.sender;
   const targetWindow = BrowserWindow.fromWebContents(sender);
   if (targetWindow) {
@@ -79,14 +101,15 @@ ipcMain.on("minimize", (event) => {
 
 ipcMain.on("place-order", (event, orderData) => {
 
+  console.log("hi")
   const {name, amount, levrage, authentication, method} = orderData;
   const timestamp = new Date().getTime();
 
   const data = `${name}&${amount}&${levrage}&${authentication}&${method}&${timestamp}`
   const Signture = crypto.createHash('sha256').update(data).digest('hex')
 
-  const res = axios({
-    url: 'http://localhost:8200/order',
+  axios({
+    url: 'http://136.244.84.251:3200/order',
     method: 'POST',
     headers: {
       'authorization': authentication,
@@ -94,23 +117,14 @@ ipcMain.on("place-order", (event, orderData) => {
     },
     data: JSON.stringify({...orderData, timestamp, Signture})
   }).then(res => {
-    console.log(res)
+    console.log(res.data)
+    createChildWindow(res.data)
   }).catch(err => {
-    console.log(err.response)
+    // console.log(err.response.data)
+    try{
+      createChildWindow(err.response.data)
+    } catch(e) {
+      createChildWindow({error:1, msg: 'Unknown Error...'})
+    }
   })
-  // console.log({...orderData, timestamp, Signture})
 })
-
-// var ws = new WebSocket('wss://news.treeofalpha.com/ws');
-
-// ws.on('open', function() {
-//   ws.send('something');
-// });
-// ws.on('message', function(data, flags) {
-//   const strData = data.toString();
-//   try {
-//       const jsonData = JSON.parse(strData);
-//     } catch (e) {
-//       console.error('Could not parse data as JSON:', e);
-//     }
-// });

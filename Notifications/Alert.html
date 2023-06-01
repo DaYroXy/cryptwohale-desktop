@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        ::root {
+
+        }
+        *{ 
+            margin:0; padding:0; font-family:sans-serif;
+            color: #fff;
+            box-sizing: border-box;
+            overflow: hidden;
+            -webkit-app-region: drag;
+        }
+        html, body {
+            width:100vw;
+            height:100vh;
+            background-color: #1C2331;
+        }
+
+        .green {
+            background: #4ade80c5;
+            color: #fff;
+        }
+
+        .red {
+            background: #F87171;
+            color: #fff;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="green" style="width: 100%; display: flex; align-items: center; justify-content: center; color: #fff; padding: 0.2rem;">
+        <p style="width: fit-content;"></p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; height: 100%; padding: .5rem; ">
+        <div style="flex:1; display: flex; justify-content: center; align-items: center;">
+            <p id="msg" style="text-align: center; overflow-wrap: break-word;"></p>
+          </div>
+        <button class="green" id="btn" onclick="window.electron.exit()" style="outline:none; -webkit-app-region: none; z-index: 100000; padding: .5rem; border-radius: .33rem; border: none; margin-top: auto; margin-bottom: 1rem;">Close</button>
+    </div>
+
+   
+    <audio id="succ" src="./sounds/succ.mp3"></audio>
+    <audio id="err" src="./sounds/err.mp3"></audio>
+    
+    <script>
+        window.electron.getData().then(data => {
+            const msg = document.querySelector('#msg').innerText = data.msg
+            console.log(data.error)
+            
+            if(data.error === 0) {
+                document.querySelector('#succ').play()
+            } else {
+                let elements = document.querySelectorAll('.green');
+                elements.forEach(e => {
+                    e.classList.remove('green');
+                    e.classList.add('red');
+                })
+                document.querySelector('#err').play()
+            }
+        });
+    </script>
+</body>
+</html>
