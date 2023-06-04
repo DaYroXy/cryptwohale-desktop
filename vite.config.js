@@ -5,7 +5,11 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'dist',
-    assetsInclude: ['events/**']
+  },
+  resolve: {
+    alias: {
+      '@events': '/events',
+    },
   },
   base: './', // Set base to './'
 });
