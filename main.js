@@ -39,9 +39,8 @@ const createChildWindow = (customData) => {
     },
   })
   
-  
 
-  childWindow.loadFile('./Notifications/Alert.html')
+  childWindow.loadFile(path.join(__dirname, './Notifications/Alert.html'));
 
   childWindow.webContents.on('did-finish-load', () => {
     childWindow.webContents.send('message', customData)
