@@ -3,12 +3,14 @@ const replaceUrls = require('../lib/replaceUrls')
 module.exports = function (mainWindow, WebSocket) {
     const connect = () => {
         var ws = new WebSocket('wss://news.treeofalpha.com/ws');
-    
+        console.log(ws)
         ws.on('open', function() {
+            console.log("tree of alpha opened")
             ws.send('something');
         });
     
         ws.on('message', function(data, flags) {
+            console.log('Got Message')
             const strData = data.toString();
     
             try {
